@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import moment from 'moment-strftime';
 import {graphql} from 'gatsby';
+import { Disqus, CommentCount } from 'gatsby-plugin-disqus';
 
 import {Layout} from '../components/index';
 import {htmlToReact, withPrefix} from '../utils';
@@ -17,9 +18,22 @@ export const query = graphql`
 `;
 
 export default class Post extends React.Component {
+    constructor(props) {
+      super(props);
+      this.props = props;
+    }
+
     render() {
+        console.log('this.props', this.props);
+        let disqusConfig = {
+          url: `${this.props.pageContext.url}`,
+          identifier:  this.props.data.sitePage.id,
+          title: _.get(this.props, 'pageContext.frontmatter.title', null),
+        }
+
         return (
             <Layout {...this.props}>
+              sdfsdfsdfr rrrrrrrrr
               <article className="post post-full">
                 <header className="post-header inner-sm">
                   <h1 className="post-title underline">{_.get(this.props, 'pageContext.frontmatter.title', null)}</h1>
@@ -41,6 +55,8 @@ export default class Post extends React.Component {
                   <time className="published"
                     dateTime={moment(_.get(this.props, 'pageContext.frontmatter.date', null)).strftime('%Y-%m-%d %H:%M')}>{moment(_.get(this.props, 'pageContext.frontmatter.date', null)).strftime('%A, %B %e, %Y')}</time>
                 </footer>
+                <CommentCount config={disqusConfig} placeholder={'...'} />
+                <Disqus config={disqusConfig} />
               </article>
             </Layout>
         );
