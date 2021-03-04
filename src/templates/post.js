@@ -26,7 +26,7 @@ export default class Post extends React.Component {
     render() {
         console.log('this.props', this.props);
         let disqusConfig = {
-          url: `${this.props.pageContext.url}`,
+          url: `${this.props.location.href}`,
           identifier:  this.props.data.sitePage.id,
           title: _.get(this.props, 'pageContext.frontmatter.title', null),
         }
